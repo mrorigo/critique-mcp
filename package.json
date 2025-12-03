@@ -1,0 +1,23 @@
+{
+  "name": "critique-mcp",
+  "description": "Verification-First (VF) Reasoning: A Structured Approach to LLM Planning",
+  "version": "0.1.0",
+  "license": "MIT",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "@typescript-eslint/eslint-plugin": "^8.48.1",
+    "@typescript-eslint/parser": "^8.48.1",
+    "eslint": "^9.39.1",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.24.2"
+  }
+}
