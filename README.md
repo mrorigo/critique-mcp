@@ -72,3 +72,9 @@ npm test
 ## Contribution & Extension
 
 If you build upon this implementation, reference the original paper and authors above. The project is structured so additional MCP tools, logging, or transport layers can be added with minimal friction. Future work might include integration tests with real MCP hosts or richer prompt crafting heuristics derived from later iterations of Iter-VF.
+
+## Support my work
+
+You can support my work by signing up for;
+
+- [Sinay.ai](https://sl1nk.com/origo-ref)
