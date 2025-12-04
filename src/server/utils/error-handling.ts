@@ -3,8 +3,8 @@ export class VfError extends Error {
     super(message);
     this.name = this.constructor.name;
     this.code = code;
-    if (cause) {
-      this.stack = cause.stack ?? this.stack;
+    if (cause?.stack) {
+      this.stack = cause.stack;
     }
   }
 }

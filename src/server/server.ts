@@ -9,24 +9,30 @@ import {
 } from '../config/server-config.js';
 import { vfLogger } from './utils/logging.js';
 import { iterVfInputSchema } from './schemas/input-schemas.js';
+import { iterVfResultSchema } from './schemas/output-schemas.js';
 
 export async function bootstrapServer(): Promise<McpServer> {
   const server = new McpServer({
     name: SERVER_NAME,
-    version: SERVER_VERSION,
-    capabilities: {
-      sampling: {}
-    }
+    version: SERVER_VERSION
   });
 
-  const tool = new IterVFWorkflowTool(server);
+  const sampler = server.server;
+  const tool = new IterVFWorkflowTool(sampler);
   server.registerTool(
     ITER_VF_TOOL_NAME,
     {
       description: ITER_VF_TOOL_DESCRIPTION,
-      inputSchema: iterVfInputSchema
+      inputSchema: iterVfInputSchema,
+      outputSchema: iterVfResultSchema
     },
-    tool.execute.bind(tool)
+    async (args) => {
+      const result = await tool.execute(args);
+      return {
+        content: [],
+        structuredContent: result as unknown as Record<string, unknown>
+      };
+    }
   );
 
   return server;

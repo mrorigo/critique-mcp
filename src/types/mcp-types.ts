@@ -1,15 +1,15 @@
 import type {
-  CreateMessageRequest,
+  CreateMessageRequestParams,
   CreateMessageResult,
   CreateMessageResultWithTools,
-  LoggingMessageNotification,
-  RequestOptions
+  LoggingMessageNotification
 } from '@modelcontextprotocol/sdk/types.js';
+import type { RequestOptions } from '@modelcontextprotocol/sdk/shared/protocol.js';
 
 export type McpSampler = {
   createMessage(
-    request: CreateMessageRequest,
+    request: CreateMessageRequestParams,
     options?: RequestOptions
   ): Promise<CreateMessageResult | CreateMessageResultWithTools>;
-  sendLoggingMessage(params: LoggingMessageNotification['params']): Promise<void>;
+  sendLoggingMessage(params: LoggingMessageNotification['params'], sessionId?: string): Promise<void>;
 };

@@ -1,5 +1,5 @@
 import type {
-  CreateMessageRequest,
+  CreateMessageRequestParams,
   CreateMessageResult,
   CreateMessageResultWithTools
 } from '@modelcontextprotocol/sdk/types.js';
@@ -65,23 +65,20 @@ export async function runSingleVFStep(
 ): Promise<VFStepAnalysis> {
   vfLogger.info('Requesting sampling for VF step.', { stepIndex, candidate });
   const prompt = buildVfPrompt({ problem, candidate });
-  const request: CreateMessageRequest = {
-    method: 'sampling/createMessage',
-    params: {
-      messages: [
-        {
-          role: 'user',
-          content: { type: 'text', text: prompt }
-        }
-      ],
-      maxTokens: DEFAULT_MAX_TOKENS,
-      temperature: DEFAULT_TEMPERATURE,
-      systemPrompt:
-        'You are a rigorous verification engine. Critique the candidate answer, then supply the corrected result following the schema.',
-      modelPreferences: {
-        intelligencePriority: DEFAULT_INTELLIGENCE_PRIORITY,
-        hints: [{ name: 'claude' }, { name: 'gpt' }]
+  const request: CreateMessageRequestParams = {
+    messages: [
+      {
+        role: 'user',
+        content: { type: 'text', text: prompt }
       }
+    ],
+    maxTokens: DEFAULT_MAX_TOKENS,
+    temperature: DEFAULT_TEMPERATURE,
+    systemPrompt:
+      'You are a rigorous verification engine. Critique the candidate answer, then supply the corrected result following the schema.',
+    modelPreferences: {
+      intelligencePriority: DEFAULT_INTELLIGENCE_PRIORITY,
+      hints: [{ name: 'claude' }, { name: 'gpt' }]
     }
   };
 
@@ -151,7 +148,8 @@ export class IterVFWorkflowTool extends BaseTool<typeof iterVfInputSchema, typeo
       }
     }
 
-    const finalAnswer = history.length > 0 ? history[history.length - 1].newly_generated_answer : candidate;
+    const lastHistoryEntry = history.at(-1);
+    const finalAnswer = lastHistoryEntry?.newly_generated_answer ?? candidate;
 
     const result: IterVFResult = this.validateOutput({
       final_answer: finalAnswer,
